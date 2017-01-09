@@ -1,10 +1,13 @@
+import java.util.LinkedHashMap;
 
 public class Player extends Participant{
+	
 	private String name;
 	private int capital = 1000;
 	private int hands;
 	private int bet;
 	
+	private LinkedHashMap<Integer, Hand> hand = new LinkedHashMap<Integer, Hand>();
 	
 	public String getName(){
 		return this.name;
@@ -37,4 +40,18 @@ public class Player extends Participant{
 	public void setBet(int bet){
 		this.bet = bet;
 	}
+	
+	public LinkedHashMap<Integer, Hand> getHand(){
+		return this.hand;
+	}
+	
+	public void createHand(){
+		for(int i = 0; i < this.getHands(); i++){
+			this.hand.put(i, new Hand(i + 1));
+			this.hand.get(i).addCard(1, this.getCards().getRandomCard());
+			this.hand.get(i).addCard(2, this.getCards().getRandomCard());
+		}
+	}
+	
+	
 }

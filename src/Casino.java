@@ -4,17 +4,21 @@ public class Casino {
 	
 	//Start het spel
 	public void start(){
-		//Kaarten
-		Cards cards = new Cards();
-		
-		//Deler
-		Dealer dealer = new Dealer();
-		
-		//Speler
-		Player player = new Player();
 		
 		while(true){
+			//Deler
+			Dealer dealer = new Dealer();
+			
+			//Speler
+			Player player = new Player();
+			
+			//Blackjack
+			Blackjack blackjack = new Blackjack(dealer, player);
+			
 			this.initializeGame(player);
+			player.createHand();
+			blackjack.drawBoard();
+			
 			break;
 		}
 	}
@@ -40,11 +44,12 @@ public class Casino {
 		System.out.println("Wat is je naam?");
 		player.setName(scanner.nextLine());
 		//Geef het kapitaal dat de speler heeft weer
-		System.out.println("Welkom, " + player.getName() + ". Je startkapitaal is € " + player.getCapital());
+		System.out.println("Welkom, " + player.getName() + ". Je startkapitaal is â‚¬ " + player.getCapital());
 		//Vraag naar de hoeveelheid handen waar de speler mee wilt spelen
 		player.setHands(utilities.validateHand());
 		//Vraag naar de hoeveelheid geld die de speler per hand wilt inzetten
 		player.setBet(utilities.valitadeBet(player.getCapital(), player.getHands()));
+		System.out.println("");
 	}
 
 }
