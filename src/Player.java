@@ -45,13 +45,29 @@ public class Player extends Participant{
 		return this.hand;
 	}
 	
-	public void createHand(){
-		for(int i = 0; i < this.getHands(); i++){
-			this.hand.put(i, new Hand(i + 1));
-			this.hand.get(i).addCard(1, this.getCards().getRandomCard());
-			this.hand.get(i).addCard(2, this.getCards().getRandomCard());
-		}
+	public Hand getHand(int handNumber){
+		return this.hand.get(handNumber);
 	}
 	
+	public void substractCapital(int substraction){
+		this.capital -= substraction;
+	}
 	
+	public void addCaptial(int add){
+		this.capital += add;
+	}
+	
+	public void createHand(){
+		for(int i = 0; i < this.getHands(); i++){
+			//Maakt de aangegeven hoeveelheid handen aan
+			this.hand.put(i, new Hand(i + 1));
+			//Voeg twee willekeurige kaarten toe aan de hand
+			this.hand.get(i).addCard(1, this.getCards().getRandomCard());
+			this.hand.get(i).addCard(2, this.getCards().getRandomCard());
+			
+			//Haal geld weg uit je startkapitaal en voeg het toe aan de hand
+			this.substractCapital(this.getBet());
+			this.hand.get(i).setBet(this.getBet());
+		}
+	}
 }

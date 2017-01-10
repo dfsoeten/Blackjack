@@ -6,7 +6,7 @@ public class Cards {
 	//Hierin worden alle kaartobjecten in opgeslagen
 	//private LinkedHashMap<Integer, Card> cards = new LinkedHashMap<Integer, Card>();
 	
-	ArrayList<Card> cards = new ArrayList<Card>();
+	ArrayList<Card> cards = new ArrayList<Card>(); //310
 	
 	public Cards(){
 		
@@ -40,7 +40,7 @@ public class Cards {
 	public Card getRandomCard(){
 		//Haal een willekeurige kaart op
 		Random rand = new Random();
-		int RandomCard = rand.nextInt(this.cards.size()) + 1;
+		int RandomCard = rand.nextInt(this.cards.size());
 		
 		//Sla de kaart op in zijn eigen instantie
 		Card card = this.getCards(RandomCard);

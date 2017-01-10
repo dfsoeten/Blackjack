@@ -17,7 +17,11 @@ public class Casino {
 			
 			this.initializeGame(player);
 			player.createHand();
-			blackjack.drawBoard();
+			
+			for(int i = 0; i < 3; i++){
+				blackjack.drawBoard();
+				blackjack.playerTurn();
+			}
 			
 			break;
 		}

@@ -16,7 +16,7 @@ public class Utilities {
 			else{
 				int hand = scanner.nextInt();
 				
-				if(hand < 0 || hand > 5){
+				if(hand <= 0 || hand > 5){
 					System.out.println("Dat aantal ligt niet tussen de 1 en 5.");
 				}else{
 					//scanner.close();
