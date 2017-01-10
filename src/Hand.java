@@ -1,4 +1,5 @@
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Hand {
 	private int handNumber;
@@ -58,5 +59,36 @@ public class Hand {
 	
 	public void setStatus(String status){
 		this.status = status;
+	}
+	
+	public void updatePlayerStatus(){
+		Utilities utilities = new Utilities();
+		
+		if(utilities.sumValues(this.getCards()) == 21){
+			this.setActive(false);
+			this.setStatus("BLACKJACK!");
+		}
+		else if(utilities.sumValues(this.getCards()) > 21){
+			this.setActive(false);
+			this.setStatus("Dood");
+		}
+	}
+	
+	public void updateDealerStatus(){
+		Utilities utilities = new Utilities();
+		
+		if(utilities.sumValues(this.getCards()) == 21){
+			this.setActive(false);
+			this.setStatus("BLACKJACK!");
+		}
+		else if(utilities.sumValues(this.getCards()) > 17 && utilities.sumValues(this.getCards()) < 21){
+			this.setActive(false);
+			this.setStatus("");
+		}
+		else if(utilities.sumValues(this.getCards()) > 21){
+			this.setActive(false);
+			this.setStatus("Dood");
+		}
+		
 	}
 }

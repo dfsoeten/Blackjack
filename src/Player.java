@@ -65,6 +65,9 @@ public class Player extends Participant{
 			this.hand.get(i).addCard(1, this.getCards().getRandomCard());
 			this.hand.get(i).addCard(2, this.getCards().getRandomCard());
 			
+			//Update de status van de hand
+			this.hand.get(i).updatePlayerStatus();
+			
 			//Haal geld weg uit je startkapitaal en voeg het toe aan de hand
 			this.substractCapital(this.getBet());
 			this.hand.get(i).setBet(this.getBet());

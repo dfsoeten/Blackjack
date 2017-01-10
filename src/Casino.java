@@ -2,10 +2,12 @@ import java.util.Scanner;
 
 public class Casino {
 	
+	private boolean game = true;
+	
 	//Start het spel
 	public void start(){
 		
-		while(true){
+		while(this.getGame()){
 			//Deler
 			Dealer dealer = new Dealer();
 			
@@ -18,12 +20,19 @@ public class Casino {
 			this.initializeGame(player);
 			player.createHand();
 			
-			for(int i = 0; i < 3; i++){
+			while(blackjack.getPlayerTurns()){
 				blackjack.drawBoard();
 				blackjack.playerTurn();
 			}
 			
-			break;
+			Dealer: while(true){
+				blackjack.dealerTurn();
+				
+				break Dealer;
+			}
+			
+			
+			this.setGame(false);
 		}
 	}
 	
@@ -56,4 +65,11 @@ public class Casino {
 		System.out.println("");
 	}
 
+	private boolean getGame(){
+		return this.game;
+	}
+	
+	private void setGame(boolean game){
+		this.game = game;
+	}
 }

@@ -1,3 +1,5 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Utilities {
@@ -47,6 +49,16 @@ public class Utilities {
 				}
 			}
 		}
+	}
+	
+	public int sumValues(LinkedHashMap<Integer, Card> cards){
+		int totalCardValues = 0;
+		
+		for (Map.Entry<Integer, Card> hands : cards.entrySet()){
+			totalCardValues += hands.getValue().getValue();
+		}
+		
+		return totalCardValues;
 	}
 	
 }

@@ -5,6 +5,9 @@ public class Dealer extends Participant{
 	
 	public Dealer(){
 		this.dealerHand.addCard(1, this.getCards().getRandomCard());
+		
+		this.dealerHand.updateDealerStatus();
+		
 	}
 	
 	public Hand getHand(){
