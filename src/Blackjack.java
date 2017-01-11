@@ -6,8 +6,6 @@ public class Blackjack {
 	private Player player;
 
 	private boolean playerTurns = true;
-	private boolean dealerTurns = true;
-	
 	
 	public Blackjack(Dealer dealer, Player player) {
 		this.dealer = dealer;
@@ -42,7 +40,7 @@ public class Blackjack {
 			System.out.println("Deler: " + this.getDealerHand());
 			//Druk op een toets om de deler te laten spelen
 			System.out.println("Druk op return om de dealer te laten spelen...");
-			//Voeg een willekeurige kaart aan de hand toe
+			//Voeg een willekeurige kaart aan de hand toe			
 			this.dealer.getHand().addCard((this.dealer.getHand().getCards().size() + 1), this.dealer.getCards().getRandomCard());
 			//Update de status van de hand
 			this.dealer.updateStatus();
@@ -65,7 +63,7 @@ public class Blackjack {
 	public void result(){
 		Utilities utilities = new Utilities();
 		
-		for (Map.Entry<Integer, Hand> playerHands : this.player.getHand().entrySet()) {
+		for (Map.Entry<Integer, Hand> playerHands : this.player.getHand().entrySet()){
 			this.result(
 					playerHands.getValue(),
 					utilities.sumValues(this.dealer.getHand().getCards()), 
@@ -98,8 +96,15 @@ public class Blackjack {
 
 			switch (input) {
 			case "j":
-				return true;
+				if(this.player.getCapital() > 0){
+					return true;
+				}
+				else{
+					System.out.println("Je hebt geen kapitaal, dus je kunt niet opnieuw spelen!");
+					return false;
+				}
 			case "n":
+				System.out.println("Tot de volgende keer!");
 				return false;
 			default:
 				System.out.println("Dat begrijp ik niet.");
@@ -281,13 +286,5 @@ public class Blackjack {
 	
 	public void setPlayerTurns(boolean playerTurns){
 		this.playerTurns = playerTurns;
-	}
-	
-	public boolean getDealerTurns(){
-		return this.dealerTurns;
-	}
-	
-	public void setDealerTurns(boolean dealerTurns){
-		this.dealerTurns = dealerTurns;
 	}
 }

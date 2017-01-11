@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Scanner;
 
 public class Casino {
@@ -24,8 +25,10 @@ public class Casino {
 		while(this.getGame()){
 			//Haal de spelers naam op en vraag aan hem met hoeveel handen hij/zij wilt spelen
 			this.initializeGame();
-			//Maak de twee kaarten aan per hand
+			//Maak de twee kaarten aan per hand voor de speler
 			this.player.createHand();
+			//Maak een kaart aan voor de deler
+			this.dealer.createHand();
 			
 			//Laat de speler spelen en update het board tussendoor
 			while(this.blackjack.getPlayerTurns()){
@@ -39,20 +42,9 @@ public class Casino {
 			//Laat het resultaat zien aan de speler
 			this.blackjack.result();
 				
-			//Speel het spel opnieuw, dit kan alleen wanneer je nog kapitaal over hebt
-			if(this.blackjack.playAgain() && this.player.getCapital() > 0){
-				this.terminizeGame();
-			}
-			else if(this.player.getCapital() == 0){
-				System.out.println("Je hebt geen kapitaal, dus je kunt niet opnieuw spelen!");
-				//Stop het spel
-				this.setGame(false);
-			}
-			else{
-				System.out.println("Tot de volgende keer!");
-				//Stop het spel
-				this.setGame(false);
-			}
+			
+			this.terminizeGame();
+			this.setGame(this.blackjack.playAgain());
 		}
 	}
 	
@@ -99,19 +91,39 @@ public class Casino {
 	}
 	
 	private void terminizeGame(){
-		//Naam van de speler
-		String name = this.player.getName();
-		//Het aantal kapitaal dat over was na de ronde 
-		double capital = this.player.getCapital();
+		this.blackjack.setPlayerTurns(true);
+		this.dealer.getHand().setActive(true);
+		this.dealer.getHand().setStatus(null);
 		
-		//Maak nieuwe instanties aan voor de klasses, zodat alles weer opnieuw aangemaakt wordt.
-		this.dealer = new Dealer();
-		this.player = new Player();
-		this.blackjack = new Blackjack(dealer, player);
+		//Stop alle kaarten van de deler in de gebruikte kaarten stapel
+		for(Map.Entry<Integer, Card> dealerCard : this.dealer.getHand().getCards().entrySet()){
+			this.dealer.getCards().putDiscardedCard(dealerCard.getValue());
+		}
 		
-		//Zet de waardes terug
-		this.player.setName(name);
-		this.player.setCapital(capital);
+		//Haal alle kaarten van de deler weg
+		this.dealer.getHand().getCards().clear();
+		
+		
+		//Stop alle kaarten van de speler in de gebruikte kaarten stapel
+		for (Map.Entry<Integer, Hand> playerHand : this.player.getHand().entrySet()){
+			for(Map.Entry<Integer, Card> playerCard : playerHand.getValue().getCards().entrySet()){
+				this.player.getCards().putDiscardedCard(playerCard.getValue());
+			}
+			
+			//Haal alle kaarten van de speler weg
+			playerHand.getValue().getCards().clear();
+		}
+		
+		//Haal alle handen van de speler weg
+		this.player.getHand().clear();
+		
+		//Stop de gebruikte kaarten weer terug wanneer de originele map voor de helft leeg is
+		if(this.player.getCards().getCards().size() < (310 / 2)){
+			for(Card card : this.player.getCards().getDiscardedCards()){
+				this.player.getCards().getCards().add(card);
+			}
+			this.player.getCards().getDiscardedCards().clear();
+		}
 	}
 
 	private boolean getGame(){

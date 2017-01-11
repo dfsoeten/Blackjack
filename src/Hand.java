@@ -37,6 +37,7 @@ public class Hand {
 		this.cards.put(key, card);
 	}
 	
+	
 	public LinkedHashMap<Integer, Card> getCards(){
 		return this.cards;
 	}
