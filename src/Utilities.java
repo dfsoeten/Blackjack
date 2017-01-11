@@ -29,11 +29,11 @@ public class Utilities {
 	}
 	
 	//Valideer de invoer voor de inzet
-	public int valitadeBet(int capital, int hands){
+	public int valitadeBet(double capital, int hands){
 		Scanner scanner = new Scanner(System.in);
-				
+		
 		while(true){
-			System.out.println("Met welke inzet wil je spelen (1-" + (capital / hands) + ")?");
+			System.out.println("Met welke inzet wil je spelen (1-" + (int)(capital / hands) + ")?");
 		
 			if(!scanner.hasNextInt()){
 				System.out.println("Dat begrijp ik niet.");
@@ -43,7 +43,7 @@ public class Utilities {
 				int bet = scanner.nextInt();
 				
 				if(bet < 1 || bet > (capital / hands)){
-					System.out.println("Dat aantal ligt niet tussen de 1 en " + (capital / hands) + ".");
+					System.out.println("Dat aantal ligt niet tussen de 1 en " + (int)(capital / hands) + ".");
 				}else{
 					return bet;
 				}

@@ -2,8 +2,8 @@ import java.util.LinkedHashMap;
 
 public class Player extends Participant{
 	
-	private String name;
-	private int capital = 1000;
+	private String name = "";
+	private double capital = 1000;
 	private int hands;
 	private int bet;
 	
@@ -17,12 +17,12 @@ public class Player extends Participant{
 		this.name = name;
 	}
 	
-	public int getCapital(){
+	public double getCapital(){
 		return this.capital;
 	}
 	
-	public void setCapital(int startingCapital){
-		this.capital = startingCapital;
+	public void setCapital(double capital){
+		this.capital = capital;
 	}
 	
 	public int getHands(){
@@ -53,10 +53,11 @@ public class Player extends Participant{
 		this.capital -= substraction;
 	}
 	
-	public void addCaptial(int add){
+	public void addCaptial(double add){
 		this.capital += add;
 	}
 	
+	//Deze methode stopt twee willekeurige kaarten in elke hand van de speler
 	public void createHand(){
 		for(int i = 0; i < this.getHands(); i++){
 			//Maakt de aangegeven hoeveelheid handen aan
@@ -66,11 +67,39 @@ public class Player extends Participant{
 			this.hand.get(i).addCard(2, this.getCards().getRandomCard());
 			
 			//Update de status van de hand
-			this.hand.get(i).updatePlayerStatus();
+			this.updateStatus(i);
 			
 			//Haal geld weg uit je startkapitaal en voeg het toe aan de hand
 			this.substractCapital(this.getBet());
 			this.hand.get(i).setBet(this.getBet());
+		}
+	}
+	
+	//Deze methode update de hand van de player
+	public void updateStatus(int handNumber){
+		Utilities utilities = new Utilities();
+		
+		if(utilities.sumValues(this.hand.get(handNumber).getCards()) == 21){
+			this.hand.get(handNumber).setActive(false);
+			this.hand.get(handNumber).setStatus(Hand.statuses.BLACKJACK);
+		}
+		else if(utilities.sumValues(this.hand.get(handNumber).getCards()) > 21){
+			this.hand.get(handNumber).setActive(false);
+			this.hand.get(handNumber).setStatus(Hand.statuses.Dood);
+		}
+	}
+	
+	//Deze methode update de hand van de player
+	public void updateStatus(Hand hand){
+		Utilities utilities = new Utilities();
+		
+		if(utilities.sumValues(hand.getCards()) == 21){
+			hand.setActive(false);
+			hand.setStatus(Hand.statuses.BLACKJACK);
+		}
+		else if(utilities.sumValues(hand.getCards()) > 21){
+			hand.setActive(false);
+			hand.setStatus(Hand.statuses.Dood);
 		}
 	}
 }

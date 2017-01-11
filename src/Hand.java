@@ -2,10 +2,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Hand {
+	public enum statuses{
+		Gepast,
+		Dubbel,
+		Dood,
+		BLACKJACK
+	}
+	
+	public enum outcomes{
+		WON,
+		LOST,
+		DRAW
+	}
+	
 	private int handNumber;
 	private int bet;
 	private boolean active = true;
-	private String status = "";
+	
+	private statuses status = null;
+
+	private outcomes result;
 	
 	private LinkedHashMap<Integer, Card> cards = new LinkedHashMap<Integer, Card>();
 	
@@ -53,42 +69,19 @@ public class Hand {
 		this.active = active;
 	}
 	
-	public String getStatus(){
+	public statuses getStatus(){
 		return this.status;
 	}
 	
-	public void setStatus(String status){
+	public void setStatus(statuses status){
 		this.status = status;
 	}
 	
-	public void updatePlayerStatus(){
-		Utilities utilities = new Utilities();
-		
-		if(utilities.sumValues(this.getCards()) == 21){
-			this.setActive(false);
-			this.setStatus("BLACKJACK!");
-		}
-		else if(utilities.sumValues(this.getCards()) > 21){
-			this.setActive(false);
-			this.setStatus("Dood");
-		}
+	public outcomes getResult(){
+		return this.result;
 	}
 	
-	public void updateDealerStatus(){
-		Utilities utilities = new Utilities();
-		
-		if(utilities.sumValues(this.getCards()) == 21){
-			this.setActive(false);
-			this.setStatus("BLACKJACK!");
-		}
-		else if(utilities.sumValues(this.getCards()) > 17 && utilities.sumValues(this.getCards()) < 21){
-			this.setActive(false);
-			this.setStatus("");
-		}
-		else if(utilities.sumValues(this.getCards()) > 21){
-			this.setActive(false);
-			this.setStatus("Dood");
-		}
-		
+	public void setResult(outcomes result){
+		this.result = result;
 	}
 }

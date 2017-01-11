@@ -3,17 +3,15 @@ import java.util.LinkedHashMap;
 import java.util.Random;
 
 public class Cards {	
-	//Hierin worden alle kaartobjecten in opgeslagen
-	//private LinkedHashMap<Integer, Card> cards = new LinkedHashMap<Integer, Card>();
 	
+	//Hierin worden alle kaartobjecten in opgeslagen	
 	ArrayList<Card> cards = new ArrayList<Card>(); //310
 	
+	//Deze constructor maakt 310 nieuwe kaarten aan
 	public Cards(){
-		
 		String suits = "♠♥♦♣";
 	    String cardLetter[] = new String[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 	    int[] values = new int[] {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
-	    
 	    
 	    for(int i = 0; i < 6; i++){
 			for(int s = 0; s < suits.length(); s++){
@@ -32,7 +30,7 @@ public class Cards {
 	}
 	
 	//Haal een kaart op
-	public Card getCards(int index){
+	protected Card getCards(int index){
 		return this.cards.get(index);
 	}
 	

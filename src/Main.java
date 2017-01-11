@@ -1,12 +1,18 @@
 
 public class Main {
-
-	//@todo
-	//Toevoegen van het wijzigen van de encoding, zodat de symbooltjes goed worden weergegeven
-	//Source: http://eclipsesource.com/blogs/2013/02/21/pro-tip-unicode-characters-in-the-eclipse-console/
+	
+	/* ========== OPMERKING ==========
+	 * Dit spel maakt gebruik van de kaartsymbolen (♠♥♦♣)!
+	 * Om deze te laten zien moet je een instelling aanpassen in de eclipse console.
+	 * 
+	 * Dit kun je als volgt doen:
+	 * Run Configurations > Common > Other > UTF-8
+	 * 
+	 * Als je dit niet aanzet werkt het programma prima, alleen zul je de type kaart niet kunnen zien!
+	 * ========== --------- ==========
+	 */
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Casino casino = new Casino();
 		

@@ -2,41 +2,61 @@ import java.util.Scanner;
 
 public class Casino {
 	
+	Dealer dealer;
+	Player player;
+	Blackjack blackjack;
+	
 	private boolean game = true;
 	
 	//Start het spel
 	public void start(){
 		
+		//Deler
+		this.dealer = new Dealer();
+		
+		//Speler
+		this.player = new Player();
+		
+		//Blackjack
+		this.blackjack = new Blackjack(dealer, player);
+		
+		//De gameloop
 		while(this.getGame()){
-			//Deler
-			Dealer dealer = new Dealer();
+			//Haal de spelers naam op en vraag aan hem met hoeveel handen hij/zij wilt spelen
+			this.initializeGame();
+			//Maak de twee kaarten aan per hand
+			this.player.createHand();
 			
-			//Speler
-			Player player = new Player();
-			
-			//Blackjack
-			Blackjack blackjack = new Blackjack(dealer, player);
-			
-			this.initializeGame(player);
-			player.createHand();
-			
-			while(blackjack.getPlayerTurns()){
-				blackjack.drawBoard();
-				blackjack.playerTurn();
+			//Laat de speler spelen en update het board tussendoor
+			while(this.blackjack.getPlayerTurns()){
+				this.blackjack.drawBoard();
+				this.blackjack.playerTurn();
 			}
 			
-			Dealer: while(true){
-				blackjack.dealerTurn();
+			//Laat de deler "spelen"
+			this.blackjack.dealerTurn();
+			
+			//Laat het resultaat zien aan de speler
+			this.blackjack.result();
 				
-				break Dealer;
+			//Speel het spel opnieuw, dit kan alleen wanneer je nog kapitaal over hebt
+			if(this.blackjack.playAgain() && this.player.getCapital() > 0){
+				this.terminizeGame();
 			}
-			
-			
-			this.setGame(false);
+			else if(this.player.getCapital() == 0){
+				System.out.println("Je hebt geen kapitaal, dus je kunt niet opnieuw spelen!");
+				//Stop het spel
+				this.setGame(false);
+			}
+			else{
+				System.out.println("Tot de volgende keer!");
+				//Stop het spel
+				this.setGame(false);
+			}
 		}
 	}
 	
-	private void initializeGame(Player player){
+	private void initializeGame(){
 		//Instancier de Utils klasse, hierin staan validatiemethodes voor de invoer van de gebruiker
 		Utilities utilities = new Utilities();
 		
@@ -53,16 +73,45 @@ public class Casino {
 		System.out.println("d = draaien");
 		System.out.println("2 = inzet verdubbelen");
 		System.out.println("");
-		//Vraag naar de naam van de speler
-		System.out.println("Wat is je naam?");
-		player.setName(scanner.nextLine());
+		
+		//Vraag naar de naam van de speler, deze mag niet leeg zijn
+		if(this.player.getName().equals("")){
+			while(true){
+				System.out.println("Wat is je naam?");
+				this.player.setName(scanner.nextLine());
+				
+				if(this.player.getName().equals("")){
+					System.out.println("Dat begrijp ik niet");
+				}
+				else{
+					break;
+				}
+			}
+		}
+		
 		//Geef het kapitaal dat de speler heeft weer
-		System.out.println("Welkom, " + player.getName() + ". Je startkapitaal is € " + player.getCapital());
+		System.out.println("Welkom, " + this.player.getName() + ". Je startkapitaal is € " + (int)this.player.getCapital());
 		//Vraag naar de hoeveelheid handen waar de speler mee wilt spelen
-		player.setHands(utilities.validateHand());
+		this.player.setHands(utilities.validateHand());
 		//Vraag naar de hoeveelheid geld die de speler per hand wilt inzetten
-		player.setBet(utilities.valitadeBet(player.getCapital(), player.getHands()));
+		this.player.setBet(utilities.valitadeBet(this.player.getCapital(), this.player.getHands()));
 		System.out.println("");
+	}
+	
+	private void terminizeGame(){
+		//Naam van de speler
+		String name = this.player.getName();
+		//Het aantal kapitaal dat over was na de ronde 
+		double capital = this.player.getCapital();
+		
+		//Maak nieuwe instanties aan voor de klasses, zodat alles weer opnieuw aangemaakt wordt.
+		this.dealer = new Dealer();
+		this.player = new Player();
+		this.blackjack = new Blackjack(dealer, player);
+		
+		//Zet de waardes terug
+		this.player.setName(name);
+		this.player.setCapital(capital);
 	}
 
 	private boolean getGame(){
