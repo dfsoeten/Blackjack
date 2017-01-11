@@ -1,2 +1,2 @@
 # Blackjack
-Blackjack game for school assignment
+A simplyfied Blackjack game for a school assignment
